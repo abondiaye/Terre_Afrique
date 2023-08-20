@@ -1,0 +1,28 @@
+<?php
+
+use Gaufrette\Adapter\GoogleCloudStorage;
+
+$keyFileLocation = '/home/me/path/to/service-auth-key.json';
+$bucketName = 'gaufrette-bucket-test-' . uniqid();
+$projectId = 'your-project-id-000';
+$bucketLocation = 'EUROPE-WEST9';
+
+putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $keyFileLocation);
+
+$client = new \Google\Client();
+$client->setApplicationName('Gaufrette');
+$client->addScope(Google\Service\Storage::DEVSTORAGE_FULL_CONTROL);
+$client->useApplicationDefaultCredentials();
+
+$service = new \Google\Service\Storage($client);
+
+return new GoogleCloudStorage(
+    $service,
+    $bucketName,
+    [
+        GoogleCloudStorage::OPTION_CREATE_BUCKET_IF_NOT_EXISTS => true,
+        GoogleCloudStorage::OPTION_PROJECT_ID => $projectId,
+        GoogleCloudStorage::OPTION_LOCATION => $bucketLocation,
+    ],
+    true
+);

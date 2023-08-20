@@ -1,0 +1,5 @@
+{
+    "require": {
+        "knplabs/knp-gaufrette-bundle": "^0.8.0"
+    }
+}
